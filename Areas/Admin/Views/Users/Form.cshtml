@@ -1,0 +1,98 @@
+﻿@model Users
+@using static MrDigitizerV2.Helpers.ApplicationHelper
+
+
+@{
+    ViewData["Title"] = "Add User";
+
+}
+@section LinkStyleSection{
+    <environment>
+
+    </environment>
+}
+@section LinkScriptSection{
+    <environment>
+
+    </environment>
+}
+@section InLineScriptSection{
+    <script type="text/javascript">
+
+
+        @if (ViewBag.PageType == EnumPageType.View)
+        {
+            @:DisableView();
+        }
+    </script>
+}
+
+
+@await Html.PartialAsync("BreadCrumb")
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-area="Admin" asp-controller="users" asp-action="save" id="FormLogin" class="p-5" autocomplete="off"
+                      data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
+                      data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
+                      data-ajax="true" data-ajax-method="POST" enctype="multipart/form-data">
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="CreatedDateTime" hidden />
+                    <input asp-for="UtccreatedDateTime" hidden />
+                    <input asp-for="CreatedBy" hidden />
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Role <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="RoleId" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="RoleId">
+                                <option>Select</option>
+                                @foreach (var item in (List<Roles>)ViewBag.Roles)
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Full Name <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Fullname" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="Fullname" placeholder="Full name" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Email Address <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="EmailAddress" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="EmailAddress" placeholder="Email Address" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Phone Number <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="PhoneNumber" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="PhoneNumber" placeholder="Phone Number" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Password <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Password" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="Password" placeholder="Password" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Confirm Password <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="ConfirmPassword" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Photo<span class="text-danger font-weight-bold">*</span> <span asp-validation-for="ProfileImagePath" class="text-danger"></span></span>
+                            <input type="file" class="form-control" asp-for="File" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Status <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Status" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="Status">
+                                <option value="@EnumStatus.Enable">@EnumStatus.Enable</option>
+                                <option value="@EnumStatus.Disable">@EnumStatus.Disable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br clear="all" />
+                    <div class="form-group text-right">
+                        <button class="btn btn-info" type="submit" id="submitForm">Save</button>
+                        <a class="btn btn-secondary" href="@ViewBag.PageURL">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div><!-- end of main-content -->

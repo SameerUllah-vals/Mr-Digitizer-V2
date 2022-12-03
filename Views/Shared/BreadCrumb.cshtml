@@ -1,0 +1,26 @@
+﻿@using MrDigitizerV2.Models;
+
+
+    @{
+        List<BreadCrumbMenu> BreadCrumbMenus = (List<BreadCrumbMenu>)ViewBag.BreadCrumbMenus;
+    }
+    
+
+
+<div class="breadcrumb">
+    <h1 class="mr-2">@ViewBag.ControllerName</h1>
+    @if (BreadCrumbMenus.Count > 0)
+    {
+        <ul class="breadcrumb">
+            <li><a href="/portal"><i class="demo-pli-home"></i></a></li>
+            @{
+                foreach (BreadCrumbMenu Menu in BreadCrumbMenus)
+                {
+                    <li class="@Menu.ClassName"><a href="@Menu.AccessURL">@Menu.Name</a></li>
+                }
+            }
+        </ul>
+    }
+
+</div>
+<div class="separator-breadcrumb border-top"></div>

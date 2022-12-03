@@ -1,0 +1,66 @@
+﻿@using MrDigitizerV2.Helpers;
+@{
+    ViewData["Title"] = "States";
+    ViewBag.AllowViewing = null;
+    string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"Country\"},{ \"data\": \"Title\"},{ \"data\": \"Status\"},{ \"data\": \"CreatedDateTimeString\"},{ \"data\": \"UpdatedDateTime\"}";
+
+    if (ViewBag.AllowAdding != null || ViewBag.AllowEditing != null || ViewBag.AllowDeleting != null || ViewBag.AllowViewing != null)
+    {
+        ViewBag.DataTableActionColumn = "5";
+        DataTableColumns += ",{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": false}";
+    }
+
+
+    ViewBag.DataTableColumns = DataTableColumns;
+}
+@section LinkStyleSection{
+
+    <link rel="stylesheet" type="text/css" href="~/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+}
+@section LinkScriptSection{
+    <script src="~/js/jquery.dataTables.min.js"></script>
+
+
+
+    <script src="https://cdn.datatables.net/plug-ins/1.10.25/api/fnStandingRedraw.js"></script>
+}
+@section InLineScriptSection{
+
+    @await Html.PartialAsync("JScript")
+
+}
+
+
+@await Html.PartialAsync("BreadCrumb")
+
+<div class="row mb-4">
+    <div class="col-md-12 mb-4">
+        <div class="card text-left">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="display">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>Status</th>
+                                <th>Created Date</th>
+                                <th>Modified Date</th>
+                                @if (ViewBag.DataTableActionColumn != null)
+                                {
+                                    <th data-priority="2">Actions</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of row-->

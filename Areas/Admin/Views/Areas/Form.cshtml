@@ -1,0 +1,145 @@
+﻿@model Areas
+@using static MrDigitizerV2.Helpers.ApplicationHelper
+
+
+@{
+    ViewData["Title"] = "Add Area";
+
+}
+@section LinkStyleSection{
+    <environment>
+
+    </environment>
+}
+@section LinkScriptSection{
+    <environment>
+
+    </environment>
+}
+@section InLineScriptSection{
+    <script type="text/javascript">
+
+
+        @if (ViewBag.PageType == EnumPageType.View)
+        {
+            @:DisableView();
+        }
+        function GetState(id) {
+            $.ajax({
+                url: "GetStates",
+                type: "get",
+                data: { Id: id },
+                success: function (response) {
+                    console.log(response);
+                    $('#StateId').empty();
+                    $('#StateId').append('<option selected value="0">-Select-</option>')
+                    for (let record of response) {
+                        if (record.Id == '@Model.StateId') {
+                            $('#StateId').append('<option selected value="' + record.Id + '">' + record.Title + '</option>')
+                        }
+                        else {
+                            $('#StateId').append('<option value="' + record.Id + '">' + record.Title + '</option>')
+                        }
+
+                    }
+                }
+            })
+        }
+
+         function GetCities(id) {
+            $.ajax({
+                url: "GetCities",
+                type: "get",
+                data: { Id: id },
+                success: function (response) {
+                    console.log(response);
+                    $('#CityId').empty();
+                    $('#CityId').append('<option selected value="0">-Select-</option>')
+                    for (let record of response) {
+                        if (record.Id == '@Model.CityId') {
+                            $('#CityId').append('<option selected value="' + record.Id + '">' + record.Title + '</option>')
+                        }
+                        else {
+                            $('#CityId').append('<option value="' + record.Id + '">' + record.Title + '</option>')
+                        }
+
+                    }
+                }
+            })
+        }
+        $('#CountryId').change(function () {
+            GetState($(this).val());
+           
+        });
+        $('#StateId').change(function () {
+            GetCities($(this).val());
+
+        });
+        $(document).ready(function () {
+            GetState('@Model.CountryId');
+            GetCities('@Model.StateId');
+        })
+    </script>
+}
+
+
+@await Html.PartialAsync("BreadCrumb")
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-area="Admin" asp-controller="areas" asp-action="save" id="FormLogin" class="p-5" autocomplete="off"
+                      data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
+                      data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
+                      data-ajax="true" data-ajax-method="POST">
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="CreatedDateTime" hidden />
+                    <input asp-for="UtccreatedDateTime" hidden />
+                    <input asp-for="CreatedBy" hidden />
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Country <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="CountryId" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="CountryId">
+                                <option>Select</option>
+                                @foreach (var item in (List<Countries>)ViewBag.Country)
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>State <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="StateId" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="StateId"></select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>City <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="CityId" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="CityId"></select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Area <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Title" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Area" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Latitude Longitude <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="LatitudeLongitude" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="LatitudeLongitude" placeholder="Latitude Longitude" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Status <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Status" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="Status">
+                                <option value="@EnumStatus.Enable">@EnumStatus.Enable</option>
+                                <option value="@EnumStatus.Disable">@EnumStatus.Disable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br clear="all" />
+                    <div class="form-group text-right">
+                        <button class="btn btn-info" type="submit" id="submitForm">Save</button>
+                        <a class="btn btn-secondary" href="@ViewBag.PageURL">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div><!-- end of main-content -->

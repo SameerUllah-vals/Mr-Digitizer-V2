@@ -1,0 +1,347 @@
+﻿@model Roles
+@using static MrDigitizerV2.Helpers.ApplicationHelper
+
+
+@{
+    ViewData["Title"] = "Add Roles";
+
+}
+@section LinkStyleSection{
+    <environment>
+
+    </environment>
+}
+@section LinkScriptSection{
+    <environment>
+
+    </environment>
+}
+@section InLineScriptSection{
+    <script type="text/javascript">
+
+
+        @if (ViewBag.PageType == EnumPageType.View)
+        {
+            @:DisableView();
+        }
+        else if (ViewBag.PageType == EnumPageType.Sorting)
+        {
+        <text>
+        $('#submitForm').click(function () {
+            let Menus = [];
+            var alltrs = $('.dd').find('.dd-handle');
+            var trs = [];
+            alltrs.filter(function (i, v) { if ($(v).attr('data-isparent') == "true") { trs.push(v); } });
+            var childTrs = [];
+            alltrs.filter(function (i, v) { if ($(v).attr('data-isparent') == "false") { childTrs.push(v); } });
+            let outerIndex = 0;
+            $.each(trs, function (i, v) {
+                outerIndex += 1;
+                let menu = { "Id": $(v).attr('data-parentId'), "InverseParent": [], "SequenceOrder": outerIndex }
+                var childFilteredTrs = [];
+                let innerIndex = 0;
+                childTrs.filter(function (i, x) {
+                    if ($(i).attr("data-parent") == $(v).attr('data-parentId')) {
+                        childFilteredTrs.push(i);
+                    }
+                });
+                $.each(childFilteredTrs, function (i, v) {
+                    innerIndex += 1;
+                    menu.InverseParent.push({ "Id": $(v).attr("data-chilId"), "SequenceOrder": innerIndex })
+                });
+                Menus.push(menu);
+            });
+            let FinalMenus = []
+            Menus.forEach(function (v, i) {
+                FinalMenus.push({ "Id": v.Id, "SequenceOrder": v.SequenceOrder });
+                v.InverseParent.forEach(function (x, l) {
+                    FinalMenus.push(x);
+                });
+            });
+            console.log(FinalMenus);
+            onFormSubmitBegin();
+            var paramObj = {
+                url: '/roles/SortingSave',
+                type: 'POST',
+                data: { menus: JSON.stringify(FinalMenus), id: "@Model.Id" }
+            };
+            AjaxGenericCalls.ajaxRequest(paramObj).then(function (resp) {
+                onFormSuccess(resp);
+            });
+        });
+        </text>
+        }
+        else
+        {
+        <text>
+         $(document).on("change", ".menu-permission", function () {
+             debugger;
+            var current_context = $(this);
+            var column_context = current_context.closest(".menu-column-permission");
+            if (current_context.attr("type") == "radio") {
+                column_context.find(".menu-permission").prop("checked", false);
+                current_context.prop("checked", true);
+            } else {
+                column_context.find(".menu-permission").each(function () {
+                    if ($(this).attr("type") == "radio") {
+                    $(this).prop("checked", false);
+                    }
+                });
+            }
+            var is_checked = false;
+            column_context.find(".menu-permission").each(function () {
+                if ($(this).prop("checked") == true) {
+                    is_checked = true;
+                }
+            });
+            if (!is_checked) {
+                column_context.find(".menu-permission").each(function () {
+                    if ($(this).attr("type") == "radio") {
+                    $(this).prop("checked", true);
+                        return false;
+                    }
+                });
+            }
+            var all_permissions = "";
+            $(".menu-column-permission").each(function () {
+                    var allow_permission = "";
+                $(this).find(".menu-permission").each(function () {
+                        if (jQuery(this).prop("checked") == true) {
+                            allow_permission += $(this).val() + "|";
+                        }
+                    });
+                    if (allow_permission == "") {
+                    $(this).find(".menu-permission").each(function () {
+                            if ($(this).attr("type") == "radio") {
+                                allow_permission = $(this).val() + "|";
+                            }
+                        });
+                    }
+                    allow_permission = $(this).attr("data-id") + "," + allow_permission.substr(0, allow_permission.length - 1);
+                    all_permissions += allow_permission + "||";
+                });
+                $("#RolePermission").val(all_permissions.substr(0, all_permissions.length - 2));
+            });
+            </text>
+        }
+        @if (ViewBag.PageType != EnumPageType.Sorting)
+        {
+         <text>
+            var getMenus = function (id) {
+            debugger;
+            var isDisabled = $("#Title").attr("disabled");
+            var table_responsive = $("#table_responsive");
+            table_responsive.html("");
+            table_responsive.removeClass();
+            table_responsive.addClass("vertical-align text-center");
+            $('@Html.Raw("<")div @Html.Raw(">")').addClass("loader vertical-align-middle loader-circle").appendTo(table_responsive);
+             $.ajax({
+                type: "POST",
+                 url: "@ViewBag.PageURL/GetMenuRecords",
+                 data: "id=" + id,
+                success: function (response) {
+                    if (response.Success == true) {
+                            debugger;
+                            console.log(response);
+                            var tableHtml = "<h1 class='text-center'> Menus </h1>";
+                            tableHtml += "<table class='table table-bordered roles-hrms-table table-fixed'>";
+                            tableHtml += "<tbody>";
+                            var jsonDataArray = JSON.parse(response.Data);
+                            for (var i = 0; i @Html.Raw("<") jsonDataArray.length; i++) {
+                                if (jsonDataArray[i] != undefined) {
+                                    var currentData = jsonDataArray[i];
+                                    tableHtml += "<tr>";
+                                    tableHtml += "<td colspan='2' class='padding-off'><h4 class='roles-h'>" + currentData.Name + "<h4></td>";
+                                    tableHtml += "</tr>";
+                                    tableHtml += "<tr>";
+                                    tableHtml += "<td width='60%'>";
+                                    tableHtml += "<strong>Name</strong>";
+                                    tableHtml += "</td>";
+                                    tableHtml += "<td width='40%'>";
+                                    tableHtml += "<strong>Action</strong>";
+                                    tableHtml += "</td>";
+                                    tableHtml += "</tr>";
+                                    for (var k = 0; k @Html.Raw("<") currentData.Menus.length; k++)
+                                    {
+                                        var currentMenuData = currentData.Menus[k];
+                                        var isAnyMenuPermission = false;
+                                        for (var z = 0; z @Html.Raw("<") currentMenuData.Permissions.length; z++) {
+                                            if (currentMenuData.Permissions[z].Selected == true) {
+                                                isAnyMenuPermission = true;
+                                            }
+                                        }
+                                        tableHtml += "<tr>";
+                                        tableHtml += "<td>";
+                                        tableHtml += currentMenuData.Name;
+                                        tableHtml += "</td>";
+                                        tableHtml += "<td class='menu-column-permission' data-id='" + currentMenuData.ID + "'>";
+                                        for (var z = 0; z @Html.Raw("<") currentMenuData.Permissions.length; z++) {
+                                            var currentMenuPermission = currentMenuData.Permissions[z];
+                                            if (currentMenuPermission.Type == "R") {
+                                                tableHtml += "<div class='radio-custom radio-primary'>";
+                                                tableHtml += "<input type='radio' name='menu_" + currentMenuData.ID + "' class='menu-permission' id='menu_permission_" + currentMenuPermission.ID + "' value='" + currentMenuPermission.Name + "'";
+                                                if (!isAnyMenuPermission) {
+                                                    tableHtml += " checked='checked'";
+                                                    isAnyMenuPermission = true;
+                                                } else {
+                                                    if (currentMenuPermission.Selected == true) {
+                                                        tableHtml += " checked='checked'";
+                                                    }
+                                                }
+                                                if (isDisabled != undefined) {
+                                                    tableHtml += " disabled='disabled'";
+                                                }
+                                                tableHtml += ">";
+                                                tableHtml += "<label for='menu_permission_" + currentMenuPermission.ID + "'>" + currentMenuPermission.Name + "</label>";
+                                                tableHtml += "</div>";
+                                            }
+                                            else {
+                                                tableHtml += "<div class='checkbox-custom radio-primary'>";
+                                                tableHtml += "<input type='checkbox' name='menu_" + currentMenuData.ID + "' class='menu-permission' id='menu_permission_" + currentMenuPermission.ID + "' value='" + currentMenuPermission.Name + "'";
+                                                if (currentMenuPermission.Selected == true) {
+                                                    tableHtml += " checked='checked'";
+                                                }
+                                                if (isDisabled != undefined) {
+                                                    tableHtml += " disabled='disabled'";
+                                                }
+                                                tableHtml += ">";
+                                                tableHtml += "<label for='menu_permission_" + currentMenuPermission.ID + "'>" + currentMenuPermission.Name + "</label>";
+                                                tableHtml += "</div>";
+                                            }
+                                        }
+                                        tableHtml += "</td>";
+                                        tableHtml += "</tr>";
+                                    }
+                                    tableHtml += "<tr>";
+                                    tableHtml += "<td colspan='2'>&nbsp;</td>";
+                                    tableHtml += "</tr>";
+                                    console.log(currentData);
+                                }
+                            }
+                            tableHtml += "</tbody>";
+                            tableHtml += "</table>";
+                            table_responsive.html("");
+                            table_responsive.removeClass();
+                            table_responsive.html(tableHtml);
+
+                    } else {
+                        table_responsive.html("");
+                        table_responsive.removeClass();
+                        table_responsive.html(response.message);
+                    }
+                },
+                 error: function (data) {
+                    table_responsive.html("");
+                    table_responsive.removeClass();
+                    table_responsive.html(data);
+                }
+            });
+        }
+            </text>
+        }
+        $(document).ready(function () {
+            @if (ViewBag.PageType != EnumPageType.Sorting)
+            {
+                @:getMenus($("#Id").val());
+            }
+            else
+            {
+                <text>
+            $('.dd').nestable({
+                beforeDragStop: function (l, e, p) {
+                    var currentItem = $(e).attr('data-parent');
+                    var traggedItem = $(p).closest('ol').closest('li').attr('data-parentId');
+                    if (traggedItem == undefined) {
+                        if (currentItem != $(p).closest('ol').attr('data-parentId')) {
+                            alertify.alert('Cannot be draged to this parent');
+                            return false;
+                        }
+                    } else {
+                        if (currentItem != traggedItem) {
+                            alertify.alert('Cannot be draged to this parent');
+                            return false;
+                        }
+                    }
+                }
+            });
+                </text>
+            }
+        });
+    </script>
+}
+
+
+@await Html.PartialAsync("BreadCrumb")
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                @if (ViewBag.PageType != EnumPageType.Sorting)
+                {
+                    <form asp-area="Admin" asp-controller="roles" asp-action="save" id="FormLogin" class="p-5" autocomplete="off"
+                          data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
+                          data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
+                          data-ajax="true" data-ajax-method="POST" enctype="multipart/form-data">
+                        <input asp-for="Id" type="hidden" />
+                        <input asp-for="CreatedDateTime" hidden />
+                        <input asp-for="UtccreatedDateTime" hidden />
+                        <input asp-for="CreatedBy" hidden />
+                        <div class="row">
+                            <input type="hidden" id="RolePermission" name="RolePermission" value="@(ViewBag.RolePermission != null ? ViewBag.RolePermission : "")">
+                            <div class="col-md-12 form-group mb-3">
+                                <span>Role Title <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Title" class="text-danger"></span></span>
+                                <input type="text" class="form-control" asp-for="Title" placeholder="Role Title" />
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-responsive" id="table_responsive"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" onclick="window.history.go(-1); return false;" href class="mr-2 btn btn-primary">Back</button>
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                }
+                else
+                {
+                    <div class="dd">
+                        <ol class="dd-list" data-parentId="0">
+                            @if (ViewBag.UserRolePermissionRecords != null)
+                            {
+                                List<BackendMenus> ParentMenuRecords = (List<BackendMenus>)ViewBag.ParentPermissions;
+                                List<BackendMenus> ChildMenuPermissions = (List<BackendMenus>)ViewBag.ChildPermissions;
+                                foreach (var ParentMenuRecord in ChildMenuPermissions)
+                                {
+                                    var ChildMenuRecords = ChildMenuPermissions.Where(o => o.ParentId == ParentMenuRecord.Id).ToList();
+                                    <li class="dd-item rootList" data-parent="0" data-type="root" data-parentId="@ParentMenuRecord.Id">
+                                        <div class="dd-handle" data-isparent="true" data-parent="" data-parentId="@ParentMenuRecord.Id"><i class="icon wb-sort-vertical" aria-hidden="true"></i> @ParentMenuRecord.Title</div>
+                                        <ol class="dd-list">
+                                            @{
+                                                foreach (var ChildMenuRecord in ChildMenuRecords)
+                                                {
+                                                    <li class="dd-item" data-type="child" data-parent="@ParentMenuRecord.Id">
+                                                        <div class="dd-handle" data-chilId="@ChildMenuRecord.Id" data-isparent="false" data-parent="@ParentMenuRecord.Id"><i class="icon wb-sort-vertical" aria-hidden="true"></i> @ChildMenuRecord.Title</div>
+                                                    </li>
+                                                }
+                                            }
+                                        </ol>
+                                    </li>
+                                }
+                            }
+                        </ol>
+                    </div>
+                    <br clear="all" />
+                    <div class="form-group text-right">
+                        <button class="btn btn-info" type="button" id="submitForm">Save</button>
+                        <a class="btn btn-secondary" href="@ViewBag.PageURL">Back</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div><!-- end of main-content -->

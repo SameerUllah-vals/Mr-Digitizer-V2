@@ -1,0 +1,78 @@
+﻿@model States
+@using static MrDigitizerV2.Helpers.ApplicationHelper
+
+
+@{
+    ViewData["Title"] = "Add States";
+
+}
+@section LinkStyleSection{
+    <environment>
+
+    </environment>
+}
+@section LinkScriptSection{
+    <environment>
+
+    </environment>
+}
+@section InLineScriptSection{
+    <script type="text/javascript">
+
+
+        @if (ViewBag.PageType == EnumPageType.View)
+        {
+            @:DisableView();
+        }
+    </script>
+}
+
+
+@await Html.PartialAsync("BreadCrumb")
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-area="Admin" asp-controller="states" asp-action="save" id="FormLogin" class="p-5" autocomplete="off"
+                      data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
+                      data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
+                      data-ajax="true" data-ajax-method="POST">
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="CreatedDateTime" hidden />
+                    <input asp-for="UtccreatedDateTime" hidden />
+                    <input asp-for="CreatedBy" hidden />
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Country <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="CountryId" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="CountryId">
+                                <option>Select</option>
+                                @foreach (var item in (List<Countries>)ViewBag.Country)
+                                {
+                                    <option value="@item.Id">@item.Title</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>State <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Title" class="text-danger"></span></span>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="State" />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Status <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Status" class="text-danger"></span></span>
+                            <select class="form-control" asp-for="Status">
+                                <option value="@EnumStatus.Enable">@EnumStatus.Enable</option>
+                                <option value="@EnumStatus.Disable">@EnumStatus.Disable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br clear="all" />
+                    <div class="form-group text-right">
+                        <button class="btn btn-info" type="submit" id="submitForm">Save</button>
+                        <a class="btn btn-secondary" href="@ViewBag.PageURL">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div><!-- end of main-content -->
