@@ -6,9 +6,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Anonymous Digitizing provide you to quality embroidery and vector design services">
+    <meta name="keywords" content="embroidery, vector, digitizing, embroidery design, vector design">
+    <meta name="author" content="Anonymous Digitizing">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Signin | Gull Admin Template</title>
+    <title>Signin | Anonymous Digitizing</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
     <link href="~/css/themes/lite-purple.min.css" rel="stylesheet">
 </head>
@@ -19,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="p-4">
-                            <div class="auth-logo text-center mb-4"><img src="~/images/logo.jpg" alt=""></div>
+                            <div class="auth-logo text-center mb-4"><img src="~/images/logo.png" alt=""></div>
                             <h1 class="mb-3 text-18">Sign In</h1>
                             <form asp-area="admin" asp-controller="account" asp-action="login" id="FormLogin" autocomplete="off"
                                   data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
@@ -38,8 +41,8 @@
                                 <button class="btn btn-rounded btn-primary btn-block mt-2 msg-area" >Sign In</button>
                             </form>
                             <div class="mt-3 text-center">
-                                <a class="text-muted" href="forgot.html">
-                                    <u>Forgot Password?</u>
+                                <a class="text-muted" href="@(ViewBag.WebsiteURL)registration">
+                                    <u>Don't have an account? Register here.</u>
                                 </a>
                             </div>
                         </div>

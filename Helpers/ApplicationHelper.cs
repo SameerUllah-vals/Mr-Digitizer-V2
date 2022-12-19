@@ -26,6 +26,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace MrDigitizerV2.Helpers
 {
@@ -100,8 +101,8 @@ namespace MrDigitizerV2.Helpers
 
         public static class EnumFileUploadFolder
         {
-            public const string ProfileImage = "ProfileImage";
-            public const string Documents = "Documents";
+            public const string ProfileImage = "uploads\\ProfileImages";
+            public const string Documents = "uploads\\Documents";
         }
         public static class EnumPlatform
         {
@@ -206,6 +207,11 @@ namespace MrDigitizerV2.Helpers
         {
             public const string Online = "Online";
             public const string Offline = "Offline";
+        }
+        public static class EnumOrderType
+        {
+            public const string Digitizing = "Digitizing";
+            public const string Vector = "Vector";
         }
         public static class EnumCalendarUnits
         {
@@ -644,7 +650,6 @@ namespace MrDigitizerV2.Helpers
         {
             public MrdigitizerV2Context Database { get; set; }
             public string MailTo { get; set; }
-            public string MailFrom { get; set; }
             public string Subject { get; set; }
             public string Message { get; set; }
         }
@@ -660,12 +665,12 @@ namespace MrDigitizerV2.Helpers
         }
         public static void SendEmail(MailObject mailer)
         {
-            if (!string.IsNullOrWhiteSpace(mailer.MailFrom) && !string.IsNullOrWhiteSpace(mailer.MailTo) && !string.IsNullOrWhiteSpace(mailer.Subject) && !string.IsNullOrWhiteSpace(mailer.Message))
+            string FromMail = mailer.Database.Settings.FirstOrDefault(x => x.Title.Equals(Website_Email_Sender_Key)).Content;
+            if (!string.IsNullOrWhiteSpace(FromMail) && !string.IsNullOrWhiteSpace(mailer.MailTo) && !string.IsNullOrWhiteSpace(mailer.Subject) && !string.IsNullOrWhiteSpace(mailer.Message))
             {
-                if (IsEmailAddressValid(mailer.MailFrom))
+                if (IsEmailAddressValid(FromMail))
                 {
                     mailer.Message = mailer.Message.Replace("{Current Year}", GetUtcDateTime().Year.ToString());
-                    //mailer.Message = mailer.Message.Replace("{Footer Menus}", GetEmailFooterTable());
                     string[] mail_to_array = mailer.MailTo.Split(',');
                     //string[] emailServerDetail = GetSettingContentByName(mailer.Database, Website_Email_Server_Detail_Key).Split(new char[] { ',' });
                     foreach (string mail_to in mail_to_array)
@@ -674,8 +679,7 @@ namespace MrDigitizerV2.Helpers
                         if (!string.IsNullOrWhiteSpace(emailTo))
                         {
                             if (IsEmailAddressValid(emailTo))
-                            {
-                                string FromMail = mailer.Database.Settings.FirstOrDefault(x => x.Title.Equals(Website_Email_Sender_Key)).Content;
+                            {                               
                                 string Server = mailer.Database.Settings.FirstOrDefault(x => x.Title.Equals(Website_Email_Server_Detail_Key)).Content;
                                 string Password = Decrypt(mailer.Database.Settings.FirstOrDefault(x => x.Title.Equals(Website_Email_Encrypted_Password)).Content);
                                 MailMessage mm = new MailMessage(FromMail, emailTo);
@@ -688,8 +692,8 @@ namespace MrDigitizerV2.Helpers
                                 NetworkCredential NetworkCred = new NetworkCredential(FromMail, Password);
                                 smtp.UseDefaultCredentials = false;
                                 smtp.Credentials = NetworkCred;
-                                smtp.Port = 25;
-                                smtp.Send(mm);
+                                smtp.Port = 8889;
+                                smtp.Send(mm);                             
                             }
                         }
                     }

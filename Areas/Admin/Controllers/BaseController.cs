@@ -143,7 +143,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                         {
                             ViewBag.UserRolePermissionRecords = UserRolePermissionRecords;
 
-                            var userRoleParentPermission = UserRolePermissionRecords.Select(o => o.Menu).ToList();
+                            var userRoleParentPermission = dbContext.BackendMenus.Where(x => x.ParentId == null).ToList();
                             ViewBag.UserRoleParentPermissionRecords = userRoleParentPermission;
                         }
                         List<BreadCrumbMenu> breadCrumbList = new List<BreadCrumbMenu>();

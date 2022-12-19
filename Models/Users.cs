@@ -9,6 +9,11 @@ namespace MrDigitizerV2.Models
 {
     public partial class Users
     {
+        public Users()
+        {
+            Orders = new HashSet<Orders>();
+        }
+
         public Guid Id { get; set; }
         public Guid RoleId { get; set; }
         public string ConnectionId { get; set; }
@@ -34,5 +39,6 @@ namespace MrDigitizerV2.Models
         public Guid? DeletedBy { get; set; }
 
         public virtual Roles Role { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

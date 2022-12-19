@@ -96,8 +96,43 @@ namespace MrDigitizerV2.Models
         public Guid StateId { get; set; }
     }
 
+    public class OrdersMeta
+    {
+        [Required(ErrorMessage = "this field is required")]
+        public string DesignName { get; set; }
+        [Required(ErrorMessage = "this field is required")]
+
+        public string OrderType { get; set; }
+        [Required(ErrorMessage = "this field is required")]
+
+        public string Format { get; set; }
+        [Required(ErrorMessage = "this field is required")]
+
+        public string NoOfColors { get; set; }
+    }
+
+    [ModelMetadataType(typeof(OrdersMeta))]
+    public partial class Orders
+    {
+
+    }
 
 
+    public class UserMeta
+    {
+        [Required(ErrorMessage ="this field is required")]
+        public string Fullname { get; set; }
+        [Required(ErrorMessage = "this field is required")]
+        [EmailAddress(ErrorMessage = "Please enter valid email address")]
+        public string EmailAddress { get; set; }
+
+        [Required(ErrorMessage = "this field is required")]
+        public string Password { get; set; }
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
+    }
+
+    [ModelMetadataType(typeof(UserMeta))]
     public partial class Users
     {
         [NotMapped]
@@ -106,20 +141,12 @@ namespace MrDigitizerV2.Models
         public IFormFile File { get; set; }
     }
 
-    public partial class Documents
+    public class EmailMeta
     {
-        [NotMapped]
-        public List<IFormFile> Files { get; set; }
+        public string Fullname { get; set; }
+        public string Address { get; set; }
+        public string URL { get; set; }
+        public string WebsiteURL { get; set; }
     }
 
-    public class Chat
-    {
-        public string Text { get; set; }
-    }
-
-    public partial class Facilities
-    {
-        [NotMapped]
-        public string ServiceName { get; set; }
-    }
 }

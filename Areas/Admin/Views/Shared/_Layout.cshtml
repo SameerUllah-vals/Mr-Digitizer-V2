@@ -7,9 +7,12 @@
 <!-- Mirrored from demos.ui-lib.com/gull/html/layout1/dashboard1.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Apr 2020 08:00:16 GMT -->
 <head>
     <meta charset="UTF-8" />
+    <meta name="description" content="Anonymous Digitizing provide you to quality embroidery and vector design services">
+    <meta name="keywords" content="embroidery, vector, digitizing, embroidery design, vector design">
+    <meta name="author" content="Anonymous Digitizing">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["Title"] | Anonymous Digitizing</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
     <link href="~/css/themes/lite-purple.min.css" rel="stylesheet" />
     <link href="~/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" />
@@ -31,20 +34,20 @@
     <div class="app-admin-wrap layout-sidebar-large">
         <div class="main-header">
             <div class="logo">
-                <img src="~/images/logo.jpg" alt="">
+                <img src="~/images/logo.png" alt="">
             </div>
             <div class="menu-toggle">
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
-            <div class="d-flex align-items-center">
+           @* <div class="d-flex align-items-center">
 
                 <div class="search-bar">
                     <input type="text" placeholder="Search">
                     <i class="search-icon text-muted i-Magnifi-Glass1"></i>
                 </div>
-            </div>
+            </div>*@
             <div style="margin: auto"></div>
             <div class="header-part-right">
                 <!-- Full screen toggle -->
@@ -120,7 +123,7 @@
                 <!-- User avatar dropdown -->
                 <div class="dropdown">
                     <div class="user col align-self-end">
-                        @{ string url = string.IsNullOrEmpty(ViewBag.UserRecord.ProfileImagePath) ? "/images/faces/avatar-male.jpg" : "/ProfileImage/" + ViewBag.UserRecord.ProfileImagePath; }
+                        @{ string url = string.IsNullOrEmpty(ViewBag.UserRecord.ProfileImagePath) ? "/images/faces/avatar-male.jpg" : "/uploads/ProfileImages/" + ViewBag.UserRecord.ProfileImagePath; }                   
                         <img src="@url" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <div class="dropdown-header">
@@ -135,14 +138,15 @@
         <div class="side-content-wrap">
             <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
                 <ul class="navigation-left">
-                    <li class="nav-item">
+                   @* <li class="nav-item">
                         <a class="nav-item-hold" href="@(ViewBag.WebsiteURL)dashboard"><i class="nav-icon i-Library "></i><span class="nav-text">Dashboard</span></a>
                         <div class="triangle"></div>
-                    </li>
+                    </li>*@
                     @if (ViewBag.UserRolePermissionRecords != null)
                     {
-                        List<BackendMenus> ParentMenuRecords = (List<BackendMenus>)ViewBag.UserRoleParentPermissionRecords;
-                        ParentMenuRecords = ParentMenuRecords.Where(x => x.Type == "SuperAdmin" && x.Status == EnumStatus.Enable).ToList();
+                        List<BackendMenus> AllMenuRecords = (List<BackendMenus>)ViewBag.UserRoleParentPermissionRecords;
+                        List<BackendMenus> ParentMenuRecords = AllMenuRecords.Where(x => x.Type == "SuperAdmin" && x.Status == EnumStatus.Enable && x.ParentId == null).ToList();
+                   @*     ParentMenuRecords = ParentMenuRecords.Where(x => x.Type == "SuperAdmin" && x.Status == EnumStatus.Enable).Select(s => s.Parent).ToList();*@
                         List<RoleBackendMenus> RolePremissionRecords = (List<RoleBackendMenus>)ViewBag.UserRolePermissionRecords;
                         foreach (var ParentMenuRecord in ParentMenuRecords)
                         {
@@ -168,7 +172,7 @@
                         }
                     }
                     <li class="nav-item" >
-                        <a class="nav-item-hold" href="@(ViewBag.WebsiteURL)account/signout"><i class="nav-icon i-Library fa fa-power-off "></i><span class="nav-text">Logout</span></a>
+                        <a class="nav-item-hold" href="@(ViewBag.WebsiteURL)account/signout"><i class="nav-icon i-Library fa fa-sign-out "></i><span class="nav-text">Logout</span></a>
                         <div class="triangle"></div>
                     </li>
                 </ul>
@@ -217,7 +221,7 @@
             <!-- fotter end -->
         </div>
     </div><!-- ============ Search UI Start ============= -->
-    <div class="search-ui">
+    @*<div class="search-ui">
         <div class="search-header">
             <img src="~/images/logo.jpg" alt="" class="logo">
             <button class="search-close btn btn-icon bg-transparent float-right mt-2">
@@ -348,7 +352,7 @@
                 </ul>
             </nav>
         </div>
-    </div>
+    </div>*@
     <!-- ============ Search UI End ============= -->
     <script src="~/js/plugins/jquery-3.3.1.min.js"></script>
     <script src="~/js/functions.js"></script>

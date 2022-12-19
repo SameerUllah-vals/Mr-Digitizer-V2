@@ -44,10 +44,10 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
-                var Data = (from x in dbContext.Users.Where(x => x.Id != EnumRole.SuperAdmin && !x.IsDeleted) select x);
+                var Data = (from x in dbContext.Users.Where(x => x.RoleId != EnumRole.SuperAdmin && !x.IsDeleted) select x);
                 if (!string.IsNullOrEmpty(sortColumn) || string.IsNullOrEmpty(sortColumnDirection))
                 {
-                    Data = Data.Where(x => !x.IsDeleted).OrderBy(sortColumn + " " + sortColumnDirection);
+                    Data = Data.Where(x => !x.IsDeleted && x.RoleId != EnumRole.SuperAdmin).OrderBy(sortColumn + " " + sortColumnDirection);
                 }
                 if (!string.IsNullOrEmpty(searchValue))
                 {

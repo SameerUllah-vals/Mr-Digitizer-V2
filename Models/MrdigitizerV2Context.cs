@@ -24,6 +24,8 @@ namespace MrDigitizerV2.Models
         public virtual DbSet<BackendMenus> BackendMenus { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Countries> Countries { get; set; }
+        public virtual DbSet<Formats> Formats { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<RoleBackendMenus> RoleBackendMenus { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Settings> Settings { get; set; }
@@ -247,6 +249,81 @@ namespace MrDigitizerV2.Models
                 entity.Property(e => e.UtcupdatedDateTime)
                     .HasColumnName("UTCUpdatedDateTime")
                     .HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Formats>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.UtccreatedDateTime)
+                    .HasColumnName("UTCCreatedDateTime")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UtcupdatedDateTime)
+                    .HasColumnName("UTCUpdatedDateTime")
+                    .HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Orders>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ColorType).HasMaxLength(255);
+
+                entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.DesignName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Fabric).HasMaxLength(255);
+
+                entity.Property(e => e.FilePath).HasMaxLength(500);
+
+                entity.Property(e => e.Format)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.NoOfColors)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.OrderType)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Placement).HasMaxLength(255);
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Orders__UserId__45F365D3");
             });
 
             modelBuilder.Entity<RoleBackendMenus>(entity =>

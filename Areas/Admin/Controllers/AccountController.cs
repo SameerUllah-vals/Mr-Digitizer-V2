@@ -10,6 +10,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Routing;
+
 namespace MrDigitizerV2.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -39,9 +41,24 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
 
             if (!string.IsNullOrEmpty(GetCookie(this, Cookie_Admin_Area_Authentication)))
             {
-                return Redirect(ViewBag.WebsiteURL + "dashboard/index");
+                return Redirect(ViewBag.WebsiteURL + "orders");
             }
             return View(new LoginModel { });
+        }
+        [Route("confirmation")]
+        public IActionResult Confirmation(string token)
+        {
+            bool Success = false;
+            var Record = Database.Users.FirstOrDefault(x => x.PasswordRecoveryCode == token);
+            if(Record != null)
+            {
+                Record.PasswordRecoveryCode = null;
+                Record.Status = EnumStatus.Enable;
+                Record.VerificationDateTime = GetDateTime();
+                Database.SaveChanges();
+                Success = true;
+            }
+            return View(Success);
         }
 
 
@@ -55,25 +72,31 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
             AjaxResponse.Message = "Wrong email-address or password.";
             var users = new Users();
             string LoginEncryptPasswordValue = Encrypt(user.Password);
-            var userRecord = Database.Users.FirstOrDefault(o => o.EmailAddress.Equals(user.EmailAddress) && o.Password.Equals(LoginEncryptPasswordValue) && o.IsDeleted == false && o.Status == EnumStatus.Enable );
+            var userRecord = Database.Users.FirstOrDefault(o => o.EmailAddress.Equals(user.EmailAddress) && o.Password.Equals(LoginEncryptPasswordValue) && o.IsDeleted == false);
             if (userRecord != null)
             {
-                var userClaims = new List<Claim>()
+                if(userRecord.Status == EnumStatus.Enable)
                 {
-                    new Claim(ClaimTypes.NameIdentifier, userRecord.Id.ToString()),
-                    new Claim(ClaimTypes.Role, userRecord.RoleId.ToString()),
-                    new Claim(ClaimTypes.Name, userRecord.Fullname),
-                    new Claim(ClaimTypes.Email, userRecord.EmailAddress),
-                 };
-                var Identity = new ClaimsIdentity(userClaims, "User Identity");
-                var userPrincipal = new ClaimsPrincipal(new[] { Identity });
-                HttpContext.SignInAsync("scheme1", userPrincipal);
-                AjaxResponse.Success = true;
-                AjaxResponse.Message = "Login Successfull Redirecting...";
-                AjaxResponse.Type = EnumJQueryResponseType.MessageAndRedirect;
-                if (!string.IsNullOrEmpty(user.ReturnUrl)) AjaxResponse.TargetURL = user.ReturnUrl;
-                else AjaxResponse.TargetURL = ViewBag.WebsiteURL + "dashboard";
-
+                    var userClaims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, userRecord.Id.ToString()),
+                        new Claim(ClaimTypes.Role, userRecord.RoleId.ToString()),
+                        new Claim(ClaimTypes.Name, userRecord.Fullname),
+                        new Claim(ClaimTypes.Email, userRecord.EmailAddress),
+                     };
+                    var Identity = new ClaimsIdentity(userClaims, "User Identity");
+                    var userPrincipal = new ClaimsPrincipal(new[] { Identity });
+                    HttpContext.SignInAsync("scheme1", userPrincipal);
+                    AjaxResponse.Success = true;
+                    AjaxResponse.Message = "Login Successfull Redirecting...";
+                    AjaxResponse.Type = EnumJQueryResponseType.MessageAndRedirect;
+                    if (!string.IsNullOrEmpty(user.ReturnUrl)) AjaxResponse.TargetURL = user.ReturnUrl;
+                    else AjaxResponse.TargetURL = ViewBag.WebsiteURL + "orders";
+                }
+                else
+                {
+                    AjaxResponse.Message = "Your account is not activated yet.";
+                }
             }
             return Json(AjaxResponse);
         }
@@ -82,7 +105,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
         [Route("account/SignOut")]
         public IActionResult SignOut()
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.SignOutAsync("scheme1");
             return RedirectToAction("","admin");
         }
     }

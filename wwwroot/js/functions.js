@@ -197,6 +197,9 @@ OnFormSuccess = function (response) {
                 window.location.reload();
             }, 2000);
         }
+        else if (value == "D") {
+            $("#data").html(response.Data);
+        }
     });
     EnableDisableArea("", "Enable");
 }
