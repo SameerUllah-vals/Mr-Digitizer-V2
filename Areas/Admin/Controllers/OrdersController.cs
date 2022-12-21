@@ -19,6 +19,12 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
     [Route("admin/orders")]
     public class OrdersController : BaseController
     {
+        IWebHostEnvironment webHostEnvironment;
+        public OrdersController(IWebHostEnvironment webHostEnvironment)
+        {
+            this.webHostEnvironment = webHostEnvironment;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -39,13 +45,17 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 IQueryable<Orders> Data;
-                if(Guid.Parse(User.FindFirstValue(ClaimTypes.Role)) != EnumRole.SuperAdmin)
+                if(User.FindFirstValue("RoleName") == EnumRoleTypes.Admin)
+                {                   
+                    Data = (from x in dbContext.Orders.Where(x => !x.IsDeleted) select x);
+                }
+                else if(User.FindFirstValue("RoleName") == EnumRoleTypes.Designer)
                 {
-                    Data = (from x in dbContext.Orders.Where(x => x.Id == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) && !x.IsDeleted) select x);
+                    Data = (from x in dbContext.Orders.Where(x => x.DeisgnerId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) && !x.IsDeleted) select x);
                 }
                 else
                 {
-                    Data = (from x in dbContext.Orders.Where(x => !x.IsDeleted) select x);
+                    Data = (from x in dbContext.Orders.Where(x => x.CreatedBy == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) && !x.IsDeleted) select x);
                 }
                 if (!string.IsNullOrEmpty(sortColumn) || string.IsNullOrEmpty(sortColumnDirection))
                 {
@@ -57,7 +67,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                                                 || m.User.EmailAddress.Contains(searchValue)
                                                 || m.User.PhoneNumber.Contains(searchValue)
                                                 || m.User.Fullname.Contains(searchValue)
-                                                || m.Status.Contains(searchValue)
+                                                || m.OrderStatus.Where(x => x.Status.Contains(searchValue)).Count() > 0
                                                 || m.CreatedDateTime.ToString().Contains(searchValue)
                                                 || m.UpdatedDateTime.ToString().Contains(searchValue));
                 }
@@ -72,10 +82,73 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                                      x.DesignName,
                                      EmailAddress = x.User.EmailAddress,
                                      PhoneNumber = x.User.PhoneNumber,
-                                     x.Status,
+                                     Status = x.OrderStatus.OrderByDescending(x => x.DateTime).FirstOrDefault().Status,
                                      CreatedDateTime = x.CreatedDateTime,
                                      CreatedDateTimeString = x.CreatedDateTime.ToString(Website_Date_Time_Format),
                                      UpdatedDateTime = !x.UpdatedDateTime.HasValue ? "" : x.UpdatedDateTime.Value.ToString(Website_Date_Time_Format)
+                                 };
+
+                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
+                return Ok(jsonData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("ListenerChild")]
+        public IActionResult ListenerChild(Guid OrderId)
+        {
+            try
+            {
+                var draw = Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                IQueryable<OrderDocuments> Data;
+                if (User.FindFirstValue("RoleName") == EnumRoleTypes.Admin)
+                {
+                    Data = (from x in dbContext.OrderDocuments.Where(x => x.OrderId == OrderId).OrderByDescending(x => x.CreatedDateTime) select x);
+                }
+                else if (User.FindFirstValue("RoleName") == EnumRoleTypes.Designer)
+                {
+                    Data = (from x in dbContext.OrderDocuments.Where(x => x.OrderId == OrderId && x.User.Role.Title.ToLower() != EnumRoleTypes.Member).OrderByDescending(x => x.CreatedDateTime) select x);
+                }
+                else
+                {
+                    Data = (from x in dbContext.OrderDocuments.Where(x => x.OrderId == OrderId && x.User.Role.Title.ToLower() == EnumRoleTypes.Member).OrderByDescending(x => x.CreatedDateTime) select x);
+                }
+                if (!string.IsNullOrEmpty(sortColumn) || string.IsNullOrEmpty(sortColumnDirection))
+                {
+                    Data = Data.OrderBy(sortColumn + " " + sortColumnDirection);
+                }
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    Data = Data.Where(m => m.FilePath.Contains(searchValue)
+                                                || m.Extension.Contains(searchValue)
+                                                || m.User.Role.Title.Contains(searchValue));
+                }
+                recordsTotal = Data.Count();
+                var resultList = Data.Skip(skip).Take(pageSize).ToList();
+                var resultData = from x in resultList
+                                 select new
+                                 {
+                                     x.Id,
+                                     FileName = x.FileName,
+                                     FilePath = x.FilePath,
+                                     Extension = x.Extension,
+                                     UploadedBy = string.Format("{0} ({1})", x.User.Fullname, x.User.Role.Title),
+                                     CreatedDateTime = x.CreatedDateTime,
+                                     CreatedDateTimeString = x.CreatedDateTime.ToString(Website_Date_Time_Format),
                                  };
 
                 var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
@@ -138,7 +211,21 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
+                    string RoleName = User.FindFirstValue("RoleName");
                     bool isAbleToAddOrUpdate = true;
+                    if(modelRecord.Id != Guid.Empty)
+                    {                       
+                        if (RoleName == EnumRoleTypes.Member)
+                        {
+                            bool isAssignedOrder = dbContext.OrderStatus.Any(x => x.OrderId == modelRecord.Id && x.Status == EnumStatus.Assigned);
+                            if (isAssignedOrder)
+                            {
+                                string emailAddress = dbContext.Settings.FirstOrDefault(x => x.Title.Equals(Website_Email_Sender_Key)).Content;
+                                ajaxResponse.Message = "You cannot edit this order because it has been assigned. for more information email us on " + emailAddress;
+                                isAbleToAddOrUpdate = false;
+                            }
+                        }
+                    }                   
                     if (isAbleToAddOrUpdate)
                     {
                         bool isRecordWillAdded = false;
@@ -149,23 +236,87 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                             modelRecord.Id = Guid.NewGuid();
                             modelRecord.CreatedDateTime = GetDateTime(dbContext);
                             modelRecord.CreatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                            dbContext.Orders.Add(modelRecord);
+                            dbContext.Orders.Add(modelRecord);                            
+                            OrderStatus orderStatus = new OrderStatus
+                            {
+                                Id = Guid.NewGuid(),
+                                OrderId = modelRecord.Id,
+                                Status = EnumStatus.Unassigned,
+                                DateTime = GetDateTime()
+                            };
+                            dbContext.OrderStatus.Add(orderStatus);
                         }
                         else
                         {
-
                             modelRecord.UpdatedDateTime = GetDateTime(dbContext);
-                            modelRecord.UpdatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); ;
-                            dbContext.Orders.Update(modelRecord);
+                            modelRecord.UpdatedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));                          
+                            if (RoleName == EnumRoleTypes.Admin)
+                            {
+                                dbContext.Orders.Update(modelRecord);
+                                if (modelRecord.DeisgnerId != Guid.Empty)
+                                {
+                                    bool isAssignedOrder = dbContext.OrderStatus.Any(x => x.OrderId == modelRecord.Id && x.Status == EnumStatus.Assigned);
+                                    if (!isAssignedOrder)
+                                    {
+                                        OrderStatus orderStatus = new OrderStatus
+                                        {
+                                            Id = Guid.NewGuid(),
+                                            OrderId = modelRecord.Id,
+                                            Status = EnumStatus.Assigned,
+                                            DateTime = GetDateTime()
+                                        };
+                                        dbContext.OrderStatus.Add(orderStatus);
+                                    }
+                                }
+                              
+                            }
+                            else if(RoleName == EnumRoleTypes.Member)
+                            {
+                                dbContext.Orders.Update(modelRecord);
+                            }
+                            else if(RoleName == EnumRoleTypes.Designer)
+                            {
+                                bool isCompletedOrder = dbContext.OrderStatus.Any(x => x.OrderId == modelRecord.Id && x.Status == EnumStatus.Completed);
+                                if (!isCompletedOrder)
+                                {
+                                    OrderStatus orderStatus = new OrderStatus
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        OrderId = modelRecord.Id,
+                                        Status = EnumStatus.Completed,
+                                        DateTime = GetDateTime()
+                                    };
+                                    dbContext.OrderStatus.Add(orderStatus);
+                                }
+                            }
+                            
+                        }
+                        var oldFiles = dbContext.OrderDocuments.Where(x => x.OrderId == modelRecord.Id && x.User.Role.Title.ToLower() == RoleName).ToList();
+                        if (oldFiles.Count > 0)
+                        {
+                            dbContext.OrderDocuments.RemoveRange(oldFiles);
+                        }
+                        foreach (var file in modelRecord.Files)
+                        {
+                            OrderDocuments fileRecord = new OrderDocuments
+                            {
+                                Id = Guid.NewGuid(),
+                                OrderId = modelRecord.Id,
+                                UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                                Extension = Path.GetExtension(file.FileName),
+                                CreatedDateTime = GetDateTime()
+                            };
+                            fileRecord.FilePath = UploadFileToFolder(file, Path.Combine(webHostEnvironment.WebRootPath, EnumFileUploadFolder.Documents));
+                            dbContext.OrderDocuments.Add(fileRecord);
                         }
                         dbContext.SaveChanges();
                         if (isRecordWillAdded)
                         {
-                            ajaxResponse.Message = "Your order submitted successfully";
+                            ajaxResponse.Message = "Order submitted successfully";
                         }
                         else
                         {
-                            ajaxResponse.Message = "order updated successfully";
+                            ajaxResponse.Message = "Order updated successfully";
                         }
                         ajaxResponse.Type = EnumJQueryResponseType.MessageAndRedirectWithDelay;
                         ajaxResponse.TargetURL = ViewBag.WebsiteURL + "orders";

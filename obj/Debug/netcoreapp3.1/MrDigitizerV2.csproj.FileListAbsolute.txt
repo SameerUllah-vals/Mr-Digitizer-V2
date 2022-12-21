@@ -903,3 +903,4 @@ C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Area
 C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Orders\Index.cshtml.g.cs
 C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Views\Shared\ConfirmationEmailTemplate.cshtml.g.cs
 C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Account\confirmation.cshtml.g.cs
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Views\Shared\JScript_Child.cshtml.g.cs

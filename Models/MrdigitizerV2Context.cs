@@ -25,6 +25,8 @@ namespace MrDigitizerV2.Models
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Countries> Countries { get; set; }
         public virtual DbSet<Formats> Formats { get; set; }
+        public virtual DbSet<OrderDocuments> OrderDocuments { get; set; }
+        public virtual DbSet<OrderStatus> OrderStatus { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<RoleBackendMenus> RoleBackendMenus { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
@@ -282,6 +284,51 @@ namespace MrDigitizerV2.Models
                     .HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<OrderDocuments>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Extension)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.FileName).HasMaxLength(200);
+
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderDocuments)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderDocuments_Orders");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.OrderDocuments)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_OrderDocuments_Users");
+            });
+
+            modelBuilder.Entity<OrderStatus>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderStatus)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderStatus_Orders");
+            });
+
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -314,15 +361,12 @@ namespace MrDigitizerV2.Models
 
                 entity.Property(e => e.Placement).HasMaxLength(255);
 
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasMaxLength(20);
-
                 entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Orders__UserId__45F365D3");
             });
 

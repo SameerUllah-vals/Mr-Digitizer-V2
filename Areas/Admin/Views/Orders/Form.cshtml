@@ -3,11 +3,25 @@
 
 
 @{
+    ViewBag.AllowDownloading = true;
     ViewData["Title"] = "Create Order";
+    string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"FileName\"},{ \"data\": \"Extension\"},{ \"data\": \"UploadedBy\"},{ \"data\": \"CreatedDateTimeString\"}";
 
+    if (ViewBag.AllowAdding != null || ViewBag.AllowEditing != null || ViewBag.AllowDeleting != null || ViewBag.AllowViewing != null)
+    {
+        ViewBag.DataTableActionColumn = "4";
+        DataTableColumns += ",{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": false}";
+    }
+
+
+    ViewBag.DataTableColumns = DataTableColumns;
 }
 @section LinkStyleSection{
+  
     <environment>
+        <link rel="stylesheet" type="text/css" href="~/css/dataTables.bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="~/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
        <style>
            .vector, .digitizing{
                display:none;
@@ -17,7 +31,8 @@
 }
     @section LinkScriptSection{
     <environment>
-
+        <script src="~/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/1.10.25/api/fnStandingRedraw.js"></script>
     </environment>
 }
     @section InLineScriptSection{
@@ -54,10 +69,15 @@
                   }
             })
         }
-        
+        $(document).ready(function(){
+            setOrderType($("#OrderType"));
+        })
     </script>
-}
 
+    @if(ViewBag.PageType != EnumPageType.Add){
+          @await Html.PartialAsync("JScript_Child", Model.Id)
+       }
+}
 
     @await Html.PartialAsync("BreadCrumb")
 
@@ -68,8 +88,9 @@
                     <form asp-area="Admin" asp-controller="orders" asp-action="save" id="FormLogin" class="p-5" autocomplete="off"
                       data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
                       data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
-                      data-ajax="true" data-ajax-method="POST">
+                      data-ajax="true" data-ajax-method="POST" enctype="multipart/form-data">
                         <input asp-for="Id" type="hidden" />
+                        <input asp-for="UserId" hidden />
                         <input asp-for="CreatedDateTime" hidden />
                         <input asp-for="CreatedBy" hidden />
                         <div class="row">
@@ -82,9 +103,9 @@
                             </select>
                         </div>
                              <div class="col-md-6 form-group mb-3">
-                            <span>Design name <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="DesignName" class="text-danger"></span></span>
-                            <input type="text" class="form-control" asp-for="DesignName" />
-                        </div>
+                                <span>Design name <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="DesignName" class="text-danger"></span></span>
+                                <input type="text" class="form-control" asp-for="DesignName" />
+                            </div>
                              <div class="col-md-6 form-group mb-3">
                                <span>Format <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Format" class="text-danger"></span></span>
                                 <select class="form-control" asp-for="Format">
@@ -164,16 +185,9 @@
                             </div>
                           
                             <div class="col-md-6 form-group mb-3">
-                                <span>File <span class="text-danger font-weight-bold">*</span> </span><br />
-                                <input type="file" name="file" />
+                                <span>Files (can be multiple) <span class="text-danger font-weight-bold">*</span> </span><br />
+                                <input type="file" asp-for="Files" multiple />
                             </div>
-                        <div class="col-md-6 form-group mb-3">
-                            <span>Status <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Status" class="text-danger"></span></span>
-                            <select class="form-control" asp-for="Status">
-                                <option value="@EnumStatus.Enable">@EnumStatus.Enable</option>
-                                <option value="@EnumStatus.Disable">@EnumStatus.Disable</option>
-                            </select>
-                        </div>
                             <div class="col-md-12 form-group mb-6">
                                 <span>Special Instruction <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Description" class="text-danger"></span></span>
                                 <textarea class="form-control" asp-for="Description" rows="6" cols="6"></textarea>
@@ -185,6 +199,32 @@
                         <a class="btn btn-secondary" href="@ViewBag.PageURL">Back</a>
                     </div>
                 </form>
+                @if(ViewBag.PageType != EnumPageType.Add){
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>File name</th>
+                                            <th>Extension</th>
+                                            <th>Uploaded By</th>
+                                            <th>Uploaded Date</th>
+                                            @if (ViewBag.DataTableActionColumn != null)
+                                            {
+                                                <th data-priority="2">Actions</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
             </div>
         </div>
     </div>

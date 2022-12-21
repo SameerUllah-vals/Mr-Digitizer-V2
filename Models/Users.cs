@@ -11,6 +11,7 @@ namespace MrDigitizerV2.Models
     {
         public Users()
         {
+            OrderDocuments = new HashSet<OrderDocuments>();
             Orders = new HashSet<Orders>();
         }
 
@@ -39,6 +40,7 @@ namespace MrDigitizerV2.Models
         public Guid? DeletedBy { get; set; }
 
         public virtual Roles Role { get; set; }
+        public virtual ICollection<OrderDocuments> OrderDocuments { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
     }
 }

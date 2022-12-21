@@ -114,7 +114,8 @@ namespace MrDigitizerV2.Models
     [ModelMetadataType(typeof(OrdersMeta))]
     public partial class Orders
     {
-
+        [NotMapped]
+        public List<IFormFile> Files { get; set; } = new List<IFormFile>();
     }
 
 

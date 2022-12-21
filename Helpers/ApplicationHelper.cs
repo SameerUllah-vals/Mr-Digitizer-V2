@@ -87,6 +87,12 @@ namespace MrDigitizerV2.Helpers
         #endregion
         #region "Enum Helper"
 
+        public static class EnumRoleTypes
+        {
+            public const string Member = "member";
+            public const string Designer = "designer";
+            public const string Admin = "super administrator";
+        }
      
         public static class EnumClaimTypes
         {
@@ -193,15 +199,9 @@ namespace MrDigitizerV2.Helpers
         {
             public const string Enable = "Enable";
             public const string Disable = "Disable";
-            public const string Pending = "Pending";
-            public const string Approved = "Approved";
-            public const string Rejected = "Rejected";
-            public const string Closed = "Closed";
-            public const string Expired = "Expired";
-            public const string Sent = "Sent";
-            public const string Unsent = "Unsent";
-            public const string Read = "Read";
-            public const string Unread = "Unread";
+            public const string Unassigned = "Unassigned";
+            public const string Assigned = "Assigned";
+            public const string Completed = "Completed";
         }
         public static class EnumWebsiteStatus
         {

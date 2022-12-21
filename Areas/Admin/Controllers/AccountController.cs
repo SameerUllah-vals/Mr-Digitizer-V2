@@ -81,6 +81,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                     {
                         new Claim(ClaimTypes.NameIdentifier, userRecord.Id.ToString()),
                         new Claim(ClaimTypes.Role, userRecord.RoleId.ToString()),
+                        new Claim("RoleName", userRecord.Role.Title),
                         new Claim(ClaimTypes.Name, userRecord.Fullname),
                         new Claim(ClaimTypes.Email, userRecord.EmailAddress),
                      };
