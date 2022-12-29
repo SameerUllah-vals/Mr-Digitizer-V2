@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/MrDigitizer/FileContentIndex
+/bin/Debug/netcoreapp3.1/MrDigitizerV2.dll
+/bin/Debug/netcoreapp3.1/MrDigitizerV2.pdb
+/bin/Debug/netcoreapp3.1/MrDigitizerV2.Views.dll
+/bin/Debug/netcoreapp3.1/MrDigitizerV2.Views.pdb
+/.vs/MrDigitizer/FileContentIndex/35aa5144-aebc-47a9-b668-cdf45ea748a1.vsidx
