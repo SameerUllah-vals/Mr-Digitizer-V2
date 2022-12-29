@@ -904,3 +904,11 @@ C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Area
 C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Views\Shared\ConfirmationEmailTemplate.cshtml.g.cs
 C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Account\confirmation.cshtml.g.cs
 C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Views\Shared\JScript_Child.cshtml.g.cs
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Email\Index.cshtml.g.cs
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Views\Shared\OrderEmailTemplate.cshtml.g.cs
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\staticwebassets\MrDigitizerV2.StaticWebAssets.Pack.cache
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.MrDigitizerV2.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.build.MrDigitizerV2.props
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.buildMultiTargeting.MrDigitizerV2.props
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.buildTransitive.MrDigitizerV2.props
+C:\Users\bilal\Desktop\Sameer\Mr-Digitizer-V2\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs

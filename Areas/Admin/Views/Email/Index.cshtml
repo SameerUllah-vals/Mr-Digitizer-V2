@@ -1,0 +1,80 @@
+﻿@model EmailMeta
+
+@{
+    ViewData["Title"] = "Send Email";
+}
+ @section InLineScriptSection{
+    <script>
+        $("#Qty").keyup(function(){
+            $(".qty").html(`$${ $(this).val() }`);
+            setAmount();
+        })
+        $("#Rate").keyup(function () {
+            $(".rate").html(`$${$(this).val()}`);
+            setAmount();
+        })
+
+        function setAmount(){
+            let amount = parseFloat($("#Qty").val()) * parseFloat($("#Rate").val());
+            $(".amount").html('$' + amount);
+            $("#Amount").val(amount);
+        }
+
+        $("#preview").click(function(){
+            $("#previewPanel").fadeIn();
+        })
+    </script>
+ }
+<div class="row mb-4">
+    <div class="col-md-12 mb-4">
+        <div class="card text-left">
+            <div class="card-header">
+                <h3>@Model.DesignName</h3>
+            </div>
+            <div class="card-body">
+                <form asp-area="Admin" asp-controller="email" asp-action="sendemail" id="FormLogin" class="p-5" autocomplete="off"
+                      data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
+                      data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
+                      data-ajax="true" data-ajax-method="POST" enctype="multipart/form-data">
+                      <input type="hidden" asp-for="Id" />
+                    <div class="row">
+                        <div class="col-md-4 form-group mb-3">
+                            <span>Qty <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Qty" class="text-danger"></span></span>
+                            <input type="number" class="form-control" asp-for="Qty" />
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <span>Rate <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Rate" class="text-danger"></span></span>
+                            <input type="number" class="form-control" asp-for="Rate" />
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <span>Amount <span class="text-danger font-weight-bold">*</span></span>
+                            <input type="number" class="form-control" id="Amount" disabled />
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <span>Email To<span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Rate" class="text-danger"></span></span>
+                            <input type="text" class="form-control" value="@Model.EmailAddress" disabled />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <span>Attachements</span> <br />
+                            @foreach (var item in Model.OrderDocuments)
+                            {
+                                <span class="badge badge-info">@item.FileName</span>
+                            }                            
+                        </div>
+                    </div>
+                    <br clear="all" />
+                    <div class="form-group text-right">
+                        
+                        <a class="btn btn-secondary" href="@ViewBag.PageURL">Back</a>
+                        <button class="btn btn-info" type="button" id="preview">Preview <i class="fa fa-eye  "></i></button>
+                        <button class="btn btn-info" type="submit" id="submitForm">Send to Email <i class="fa fa-share"></i></button>
+                    </div>
+                </form>
+                <div id="previewPanel" style="display:none">
+                @await Html.PartialAsync("OrderEmailTemplate", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -28,6 +28,7 @@
                                   data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
                                   data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
                                   data-ajax="true" data-ajax-method="POST">
+                                <input type="hidden" asp-for="ReturnUrl" />
                                 <div class="form-group">
                                     <label for="email">Email address</label>
                                     <input asp-for="EmailAddress" class="form-control form-control-rounded" id="email" type="email">

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YysF9fpq0IYC/At/bkryFvRJlDiDF2zRp9bOPUanaSiusSyOTIV9RmS4APckxKQob9ayeh8N7c27oPHIma4Khg==",
+  "dgSpecHash": "GSUGEI2y1CodfZhV9DlHR6UuM667dPTFG2RbHGQssKZBjWhIWsJSFqPYTQgABIXhLy3D9rH9YDKCOgqe+uYgTQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\bilal\\Desktop\\Sameer\\Mr-Digitizer-V2\\MrDigitizerV2.csproj",
   "expectedPackageFiles": [
@@ -227,8 +227,7 @@
     "C:\\Users\\bilal\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\bilal\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\bilal\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\bilal\\.nuget\\packages\\webessentials.aspnetcore.pwa\\1.0.65\\webessentials.aspnetcore.pwa.1.0.65.nupkg.sha512",
-    "C:\\Users\\bilal\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.29\\microsoft.netcore.app.host.win-x64.3.1.29.nupkg.sha512"
+    "C:\\Users\\bilal\\.nuget\\packages\\webessentials.aspnetcore.pwa\\1.0.65\\webessentials.aspnetcore.pwa.1.0.65.nupkg.sha512"
   ],
   "logs": []
 }

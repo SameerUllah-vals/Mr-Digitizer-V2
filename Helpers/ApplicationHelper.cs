@@ -199,6 +199,8 @@ namespace MrDigitizerV2.Helpers
         {
             public const string Enable = "Enable";
             public const string Disable = "Disable";
+            public const string Cancelled = "Cancelled";
+            public const string Delivered = "Delivered";
             public const string Unassigned = "Unassigned";
             public const string Assigned = "Assigned";
             public const string Completed = "Completed";
@@ -686,6 +688,7 @@ namespace MrDigitizerV2.Helpers
                                 mm.Subject = mailer.Subject;
                                 mm.Body = mailer.Message;
                                 mm.IsBodyHtml = true;
+                                //mm.Attachments.Add()
                                 SmtpClient smtp = new SmtpClient();
                                 smtp.Host = Server;
                                 smtp.EnableSsl = false;

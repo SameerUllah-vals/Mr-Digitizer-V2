@@ -1,0 +1,204 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>W3C Example Table</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+                            <h3>Grand Total</h3>
+                            <hr>
+                            <table id="CalcultionReportGrandTotal" class="table table-row-dashed table-row-gray-300 text-center">
+                                <thead>
+                                    <tr class="fw-bolder fs-6 text-gray-800">
+                                        <th>Item Name</th>
+                                        <th>Total Point</th>
+                                    </tr>
+                                </thead>
+                                <tbody><tr>
+                        <td class="p-1 fw-bold">Site</td>
+                        <td class="p-1 fw-bold">1800.00</td>
+                </tr><tr>
+                        <td class="p-1 fw-bold">Exterior</td>
+                        <td class="p-1 fw-bold">60.84</td>
+                </tr></tbody>
+                            </table>
+
+                            <h3>Site</h3>
+                            <hr>
+                            <table id="CalcultionReportSite" class="table table-row-dashed table-row-gray-300 text-center">
+                                <thead>
+                                    <tr class="fw-bolder fs-6 text-gray-800">
+                                        <td>Name</td>
+                                        <td>Item</td>
+                                        <td>Defect</td>
+                                        <td>Comment</td>
+                                        <td>Sev</td>
+                                        <td>HS</td>
+                                        <td class="ImagesLinkHeader">Images</td>
+                                        <td class="cs-display-none">Link</td>
+                                        <td>Point</td>
+                                    </tr>
+                                </thead>
+                                <tbody><tr>
+                        <td class="p-1">site</td>
+                        <td class="p-1">Grounds</td>
+                        <td class="p-1">Seats Damage</td>
+                        <td class="p-1">The first time you have a </td>
+                        <td class="p-1">5</td>
+                        <td class="p-1">H</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W10=')">0</span></td>
+                        <td class="p-1 cs-display-none"></td>
+                        <td class="p-1">1800.00</td>
+                        </tr></tbody>
+                            </table>
+                           
+                            <h3>Exterior</h3>
+                            <hr>
+                            <table id="CalcultionReportExterior" class="table table-row-dashed table-row-gray-300 text-center">
+                                <thead>
+                                    <tr class="fw-bolder fs-6 text-gray-800">
+                                        <td>Name</td>
+                                        <td>Item</td>
+                                        <td>Defect</td>
+                                        <td>Comment</td>
+                                        <td>Sev</td>
+                                        <td>HS</td>
+                                        <td>Images</td>
+                                        <td class="cs-display-none">Link</td>
+                                        <td>Point</td>
+                                    </tr>
+                                </thead>
+                                <tbody><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1">Yeah okay that’s why I </td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjEwNCwiZmtJbnNwZWN0aW9uSUQiOjQ3LCJma01pc2NJbnNwZWN0aW9uSXRlbVR5cGUiOjI0LCJpbWFnZVVybCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjUvSW5zcGVjdGlvbkltYWdlcy9mNTg0MzEwYS1hMWM4LTQyZGItODZjOC04YmRjMDBlMTE1ZGUuanBnIiwiZmtQcm9wZXJ0eUlkIjoxNSwiZmtCdWlsZGluZ0lEIjoyMywiZmtTaXRlSWQiOjIwLCJma1VuaXRJZCI6bnVsbCwiZmtDb21wYW55SUQiOjUsImNyZWF0ZWRCeSI6NzEsImNyZWF0ZWRPbiI6IjIwMjItMTAtMjZUMTc6MTI6NTciLCJ1cGRhdGVkQnkiOm51bGwsInVwZGF0ZWRPbiI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImlzRGVsZXRlZCI6ZmFsc2V9XQ==')">1</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/f584310a-a1c8-42db-86c8-8bdc00e115de.jpg">Image 1 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1">Yeah okay that’s why I </td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjEwMywiZmtJbnNwZWN0aW9uSUQiOjQ2LCJma01pc2NJbnNwZWN0aW9uSXRlbVR5cGUiOjI0LCJpbWFnZVVybCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjUvSW5zcGVjdGlvbkltYWdlcy9kNWViNTQ1MS1mNzhhLTQ5YjQtYTJkNi0wODZmOTc1ODZjYjYuanBnIiwiZmtQcm9wZXJ0eUlkIjoxNSwiZmtCdWlsZGluZ0lEIjoyMywiZmtTaXRlSWQiOjIwLCJma1VuaXRJZCI6bnVsbCwiZmtDb21wYW55SUQiOjUsImNyZWF0ZWRCeSI6NzEsImNyZWF0ZWRPbiI6IjIwMjItMTAtMjZUMTc6MTE6MzQiLCJ1cGRhdGVkQnkiOm51bGwsInVwZGF0ZWRPbiI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImlzRGVsZXRlZCI6ZmFsc2V9XQ==')">1</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/d5eb5451-f78a-49b4-a2d6-086f97586cb6.jpg">Image 1 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1"></td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjEwMiwiZmtJbnNwZWN0aW9uSUQiOjQ1LCJma01pc2NJbnNwZWN0aW9uSXRlbVR5cGUiOjI0LCJpbWFnZVVybCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjUvSW5zcGVjdGlvbkltYWdlcy9iMTkwZGY4Mi00MTc3LTRmMGEtYTIyYi1lNGQzM2U2NzZjYTYuanBnIiwiZmtQcm9wZXJ0eUlkIjoxNSwiZmtCdWlsZGluZ0lEIjoyMywiZmtTaXRlSWQiOjIwLCJma1VuaXRJZCI6bnVsbCwiZmtDb21wYW55SUQiOjUsImNyZWF0ZWRCeSI6NzEsImNyZWF0ZWRPbiI6IjIwMjItMTAtMjZUMTc6MDk6NTAiLCJ1cGRhdGVkQnkiOm51bGwsInVwZGF0ZWRPbiI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImlzRGVsZXRlZCI6ZmFsc2V9XQ==')">1</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/b190df82-4177-4f0a-a22b-e4d33e676ca6.jpg">Image 1 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1"></td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjEwMSwiZmtJbnNwZWN0aW9uSUQiOjQ0LCJma01pc2NJbnNwZWN0aW9uSXRlbVR5cGUiOjI0LCJpbWFnZVVybCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjUvSW5zcGVjdGlvbkltYWdlcy85Nzc0ZDgyNS1hMTZhLTQ5MDEtYWIwNi0wNDlhNmVhZDExMTIuanBnIiwiZmtQcm9wZXJ0eUlkIjoxNSwiZmtCdWlsZGluZ0lEIjoyMywiZmtTaXRlSWQiOjIwLCJma1VuaXRJZCI6bnVsbCwiZmtDb21wYW55SUQiOjUsImNyZWF0ZWRCeSI6NzEsImNyZWF0ZWRPbiI6IjIwMjItMTAtMjZUMTc6MDk6MzEiLCJ1cGRhdGVkQnkiOm51bGwsInVwZGF0ZWRPbiI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImlzRGVsZXRlZCI6ZmFsc2V9XQ==')">1</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/9774d825-a16a-4901-ab06-049a6ead1112.jpg">Image 1 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1">Afggfrf</td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjk4LCJma0luc3BlY3Rpb25JRCI6NDMsImZrTWlzY0luc3BlY3Rpb25JdGVtVHlwZSI6MjQsImltYWdlVXJsIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAyNS9JbnNwZWN0aW9uSW1hZ2VzLzI0MDUwNzdiLWU2ZjMtNDg1Yy1hODg2LTgwNWVkOGJkZmNiZS5qcGciLCJma1Byb3BlcnR5SWQiOjE1LCJma0J1aWxkaW5nSUQiOjIzLCJma1NpdGVJZCI6MjAsImZrVW5pdElkIjpudWxsLCJma0NvbXBhbnlJRCI6NSwiY3JlYXRlZEJ5Ijo3MSwiY3JlYXRlZE9uIjoiMjAyMi0xMC0yNlQxNjo0NjoyNyIsInVwZGF0ZWRCeSI6bnVsbCwidXBkYXRlZE9uIjpudWxsLCJpc0FjdGl2ZSI6dHJ1ZSwiaXNEZWxldGVkIjpmYWxzZX0seyJpbnNwZWN0aW9uSW1hZ2VJRCI6OTksImZrSW5zcGVjdGlvbklEIjo0MywiZmtNaXNjSW5zcGVjdGlvbkl0ZW1UeXBlIjoyNCwiaW1hZ2VVcmwiOiJodHRwczovL2xvY2FsaG9zdDo3MDI1L0luc3BlY3Rpb25JbWFnZXMvMWMxNWM4OWEtZGIyNS00Y2NlLWExMDUtYjMxNmIyN2U5Nzk1LmpwZyIsImZrUHJvcGVydHlJZCI6MTUsImZrQnVpbGRpbmdJRCI6MjMsImZrU2l0ZUlkIjoyMCwiZmtVbml0SWQiOm51bGwsImZrQ29tcGFueUlEIjo1LCJjcmVhdGVkQnkiOjcxLCJjcmVhdGVkT24iOiIyMDIyLTEwLTI2VDE2OjQ2OjI3IiwidXBkYXRlZEJ5IjpudWxsLCJ1cGRhdGVkT24iOm51bGwsImlzQWN0aXZlIjp0cnVlLCJpc0RlbGV0ZWQiOmZhbHNlfV0=')">2</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/2405077b-e6f3-485c-a886-805ed8bdfcbe.jpg">Image 1 </a><br><a href="https://localhost:7025/InspectionImages/1c15c89a-db25-4cce-a105-b316b27e9795.jpg">Image 2 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1">Defect found in</td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W10=')">0</span></td>
+                        <td class="p-1 cs-display-none"></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1">Defect found in</td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjEwMCwiZmtJbnNwZWN0aW9uSUQiOjQxLCJma01pc2NJbnNwZWN0aW9uSXRlbVR5cGUiOjI0LCJpbWFnZVVybCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjUvSW5zcGVjdGlvbkltYWdlcy84MWQ5NGFkYy05MzVmLTRmOTEtYmQ0NS02YzAzNjlkODM2ZTUuanBnIiwiZmtQcm9wZXJ0eUlkIjoxNSwiZmtCdWlsZGluZ0lEIjoyMywiZmtTaXRlSWQiOjIwLCJma1VuaXRJZCI6bnVsbCwiZmtDb21wYW55SUQiOjUsImNyZWF0ZWRCeSI6NzEsImNyZWF0ZWRPbiI6IjIwMjItMTAtMjZUMTY6NTI6MjEiLCJ1cGRhdGVkQnkiOm51bGwsInVwZGF0ZWRPbiI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImlzRGVsZXRlZCI6ZmFsc2V9XQ==')">1</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/81d94adc-935f-4f91-bd45-6c0369d836e5.jpg">Image 1 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr><tr>
+                        <td class="p-1">abcxzxc</td>
+                        <td class="p-1">Walls</td>
+                        <td class="p-1">Wall Is Damage</td>
+                        <td class="p-1">Defect found in matech</td>
+                        <td class="p-1">1.5</td>
+                        <td class="p-1">Ad dolore n</td>
+                        <td class="p-1"><span class="ImagesLink" onclick="showImages('W3siaW5zcGVjdGlvbkltYWdlSUQiOjkxLCJma0luc3BlY3Rpb25JRCI6NDAsImZrTWlzY0luc3BlY3Rpb25JdGVtVHlwZSI6MjQsImltYWdlVXJsIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAyNS9JbnNwZWN0aW9uSW1hZ2VzLzVkY2RlYjlmLTAwZGYtNGJlNy1hMDM4LTk3M2RmZmYwNzRiOC5qcGciLCJma1Byb3BlcnR5SWQiOjE1LCJma0J1aWxkaW5nSUQiOjIzLCJma1NpdGVJZCI6MjAsImZrVW5pdElkIjpudWxsLCJma0NvbXBhbnlJRCI6NSwiY3JlYXRlZEJ5Ijo3MSwiY3JlYXRlZE9uIjoiMjAyMi0xMC0yNlQxNjo0MToxNyIsInVwZGF0ZWRCeSI6bnVsbCwidXBkYXRlZE9uIjpudWxsLCJpc0FjdGl2ZSI6dHJ1ZSwiaXNEZWxldGVkIjpmYWxzZX0seyJpbnNwZWN0aW9uSW1hZ2VJRCI6OTIsImZrSW5zcGVjdGlvbklEIjo0MCwiZmtNaXNjSW5zcGVjdGlvbkl0ZW1UeXBlIjoyNCwiaW1hZ2VVcmwiOiJodHRwczovL2xvY2FsaG9zdDo3MDI1L0luc3BlY3Rpb25JbWFnZXMvMTc4NTVkNmQtN2Y2Mi00MmI2LTk5MjQtNTFlNWZhNGI4ZmJkLmpwZyIsImZrUHJvcGVydHlJZCI6MTUsImZrQnVpbGRpbmdJRCI6MjMsImZrU2l0ZUlkIjoyMCwiZmtVbml0SWQiOm51bGwsImZrQ29tcGFueUlEIjo1LCJjcmVhdGVkQnkiOjcxLCJjcmVhdGVkT24iOiIyMDIyLTEwLTI2VDE2OjQyOjIwIiwidXBkYXRlZEJ5IjpudWxsLCJ1cGRhdGVkT24iOm51bGwsImlzQWN0aXZlIjp0cnVlLCJpc0RlbGV0ZWQiOmZhbHNlfSx7Imluc3BlY3Rpb25JbWFnZUlEIjo5NiwiZmtJbnNwZWN0aW9uSUQiOjQwLCJma01pc2NJbnNwZWN0aW9uSXRlbVR5cGUiOjI0LCJpbWFnZVVybCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwMjUvSW5zcGVjdGlvbkltYWdlcy81OWU3YzliOS0zM2E0LTQ3MGYtODlkNS0yZWUyZDI3NDI0YWIuanBnIiwiZmtQcm9wZXJ0eUlkIjoxNSwiZmtCdWlsZGluZ0lEIjoyMywiZmtTaXRlSWQiOjIwLCJma1VuaXRJZCI6bnVsbCwiZmtDb21wYW55SUQiOjUsImNyZWF0ZWRCeSI6NzEsImNyZWF0ZWRPbiI6IjIwMjItMTAtMjZUMTY6NDU6MTYiLCJ1cGRhdGVkQnkiOm51bGwsInVwZGF0ZWRPbiI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImlzRGVsZXRlZCI6ZmFsc2V9XQ==')">3</span></td>
+                        <td class="p-1 cs-display-none"><a href="https://localhost:7025/InspectionImages/5dcdeb9f-00df-4be7-a038-973dfff074b8.jpg">Image 1 </a><br><a href="https://localhost:7025/InspectionImages/17855d6d-7f62-42b6-9924-51e5fa4b8fbd.jpg">Image 2 </a><br><a href="https://localhost:7025/InspectionImages/59e7c9b9-33a4-470f-89d5-2ee2d27424ab.jpg">Image 3 </a><br></td>
+                        <td class="p-1">7.61</td>
+                        </tr></tbody>
+                            </table>
+                           
+                            <h3>System</h3>
+                            <hr>
+                            <table id="CalcultionReportSystem" class="table table-row-dashed table-row-gray-300 text-center">
+                                <thead>
+                                    <tr class="fw-bolder fs-6 text-gray-800">
+                                        <td>Name</td>
+                                        <td>Item</td>
+                                        <td>Defect</td>
+                                        <td>Comment</td>
+                                        <td>Sev</td>
+                                        <td>HS</td>
+                                        <td>Images</td>
+                                        <td class="cs-display-none">Link</td>
+                                        <td>Point</td>
+                                    </tr>
+                                </thead>
+                                <tbody><tr><td colspan="8">No Record Found!</td></tr></tbody>
+                            </table>
+                            
+                            <h3>Common Area</h3>
+                            <hr>
+                            <table id="CalcultionReportCommonArea" class="table table-row-dashed table-row-gray-300 text-center">
+                                <thead>
+                                    <tr class="fw-bolder fs-6 text-gray-800">
+                                        <td>Name</td>
+                                        <td>Item</td>
+                                        <td>Defect</td>
+                                        <td>Comment</td>
+                                        <td>Sev</td>
+                                        <td>HS</td>
+                                        <td>Images</td>
+                                        <td class="cs-display-none">Link</td>
+                                        <td>Point</td>
+                                    </tr>
+                                </thead>
+                                <tbody><tr><td colspan="8">No Record Found!</td></tr></tbody>
+                            </table>
+                            
+                            <h3>Unit</h3>
+                            <hr>
+                            <table id="CalcultionReportUnit" class="table table-row-dashed table-row-gray-300 text-center">
+                                <thead>
+                                    <tr class="fw-bolder fs-6 text-gray-800">
+                                        <td>Name</td>
+                                        <td>Item</td>
+                                        <td>Defect</td>
+                                        <td>Comment</td>
+                                        <td>Sev</td>
+                                        <td>HS</td>
+                                        <td>Images</td>
+                                        <td class="cs-display-none">Link</td>
+                                        <td>Point</td>
+                                    </tr>
+                                </thead>
+                                <tbody><tr><td colspan="8">No Record Found!</td></tr></tbody>
+                            </table>
+                        </table></body></html>

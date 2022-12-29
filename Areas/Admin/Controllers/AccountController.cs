@@ -43,7 +43,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
             {
                 return Redirect(ViewBag.WebsiteURL + "orders");
             }
-            return View(new LoginModel { });
+            return View(new LoginModel { ReturnUrl = ReturnUrl });
         }
         [Route("confirmation")]
         public IActionResult Confirmation(string token)

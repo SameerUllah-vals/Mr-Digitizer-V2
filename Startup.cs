@@ -73,7 +73,7 @@ namespace MrDigitizerV2
             {
                 endpoints.MapControllerRoute(
                         name: "default",
-                        pattern: "{controller=dashboard}/{action=index}");
+                        pattern: "{controller=home}/{action=index}");
 
                 endpoints.MapAreaControllerRoute(
                    name: "Admin",

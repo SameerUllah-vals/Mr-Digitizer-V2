@@ -1,11 +1,17 @@
 ﻿@using MrDigitizerV2.Helpers;
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Orders";
-    string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"OrderType\"},{ \"data\": \"CustomerName\"},{ \"data\": \"DesignName\"},{ \"data\": \"EmailAddress\"},{ \"data\": \"PhoneNumber\"},{ \"data\": \"Status\"},{ \"data\": \"CreatedDateTimeString\"},{ \"data\": \"UpdatedDateTime\"}";
+    ViewBag.AllowDropDownSearching = true;
+    @if(User.FindFirstValue("RoleName").ToLower() == ApplicationHelper.EnumRoleTypes.Admin){
+        ViewBag.AllowMailSending = true;
+    }
+   
+    string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"OrderType\"},{ \"data\": \"CustomerName\"},{ \"data\": \"DesignName\"},{ \"data\": \"EmailAddress\"},{ \"data\": \"PhoneNumber\"},{ \"render\": function(data, type, row){ if(row.Status == 'Unassigned') {return `<label style='background-color:#ff7e7e'>${row.Status}</label>` } else if(row.Status == 'Assigned') {return `<label style='background-color:Yellow'>${row.Status}</label>`} else if(row.Status == 'Completed') {return `<label style='background-color:#72f672'>${row.Status}</label>`} else if(row.Status == 'Delivered') {return `<label style='background:rgba(0, 159, 74, 1);color:white'>${row.Status}</label>`} else {return `<label style='background-color:#ff2828;color:white'>${row.Status}</label>`}} },{ \"data\": \"CreatedDateTimeString\"}";
 
     if (ViewBag.AllowAdding != null || ViewBag.AllowEditing != null || ViewBag.AllowDeleting != null || ViewBag.AllowViewing != null)
     {
-        ViewBag.DataTableActionColumn = "8";
+        ViewBag.DataTableActionColumn = "7";
         DataTableColumns += ",{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": false}";
     }
 
@@ -17,13 +23,31 @@
     <link rel="stylesheet" type="text/css" href="~/css/dataTables.bootstrap.css">
     <link rel="stylesheet" type="text/css" href="~/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <style>
+        .dataTables_filter label {
+            display: inline-block !important;
+        }
+        .dataTables_filter select {
+             width: 180px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+    </style>
 }
 @section LinkScriptSection{
     <script src="~/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.25/api/fnStandingRedraw.js"></script>
 }
 @section InLineScriptSection{
+  
     @await Html.PartialAsync("JScript")
+
+      <script>
+        $(document).on('change', "#ddlStatus",function () {
+            $(".display").DataTable().destroy();
+            initDataTable($(this).val());
+        })
+    </script>
 }
 
 
@@ -32,7 +56,45 @@
 <div class="row mb-4">
     <div class="col-md-12 mb-4">
         <div class="card text-left">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-10">
+                            <h3 class="text-center">Status Meanings</h3>
+                    </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                            <select name="status" id="ddlStatus" class='form-control pull-right'>
+                                <option value="">-Search by status-</option>
+                                <option value="">All</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="Unassigned">Unassigned</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            </div>
+                          
+                        </div>
+               </div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th align="center" style="text-align:center"><label style='background-color:#ff2828' class="text-center">Cancelled</label></th>
+                            <td>Your order has been cancelled</td>
+                            <th><label style='background-color:#ff7e7e'>Unassigned</label></th>
+                            <td>Order has not been assigned yet</td>
+                            <th><label style='background-color:yellow'>Assigned</label></th>
+                            <td>Order has been processed</td>
+                            <th><label style='background-color:#72f672'>Completed</label></th>
+                            <td>Order has been completed</td>
+                            <th><label style='background:rgba(0, 159, 74, 1)'>Delivered</label></th>
+                            <td>Order has been sent to your email address</td>
+                            
+                        </tr>
+                        
+                    </table>
+            </div>
             <div class="card-body">
+             
                 <div class="table-responsive">
                     <table class="display">
                         <thead>
@@ -45,7 +107,7 @@
                                 <th>Phone Number</th>
                                 <th>Status</th>
                                 <th>Created Date</th>
-                                <th>Modified Date</th>
+                               
                                 @if (ViewBag.DataTableActionColumn != null)
                                 {
                                     <th data-priority="2">Actions</th>

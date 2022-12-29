@@ -1,4 +1,5 @@
-﻿@model Orders
+﻿@using System.Security.Claims
+@model Orders
 @using static MrDigitizerV2.Helpers.ApplicationHelper
 
 
@@ -67,11 +68,11 @@
                         dropdown.append(`<option value='${record.Title}'>${record.Title}</option>`);
                     });
                   }
+                  @if(Model.Id != Guid.Empty){
+                      @:dropdown.val('@Model.Format');
+                  }
             })
         }
-        $(document).ready(function(){
-            setOrderType($("#OrderType"));
-        })
     </script>
 
     @if(ViewBag.PageType != EnumPageType.Add){
@@ -96,12 +97,12 @@
                         <div class="row">
                              <div class="col-md-6 form-group mb-3">
                             <span>Order type <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="OrderType" class="text-danger"></span></span>
-                            <select class="form-control" asp-for="OrderType">
-                                    <option value="">-Select Order type-</option>
-                                    <option value="@EnumOrderType.Digitizing">@EnumOrderType.Digitizing</option>
-                                    <option value="@EnumOrderType.Vector">@EnumOrderType.Vector</option>
-                            </select>
-                        </div>
+                                <select class="form-control" asp-for="OrderType">
+                                        <option value="">-Select Order type-</option>
+                                        <option value="@EnumOrderType.Digitizing">@EnumOrderType.Digitizing</option>
+                                        <option value="@EnumOrderType.Vector">@EnumOrderType.Vector</option>
+                                </select>
+                            </div>
                              <div class="col-md-6 form-group mb-3">
                                 <span>Design name <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="DesignName" class="text-danger"></span></span>
                                 <input type="text" class="form-control" asp-for="DesignName" />
@@ -183,15 +184,32 @@
                                 <span>Width <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Width" class="text-danger"></span></span>
                                 <input type="text" class="form-control" asp-for="Width" />
                             </div>
-                          
-                            <div class="col-md-6 form-group mb-3">
-                                <span>Files (can be multiple) <span class="text-danger font-weight-bold">*</span> </span><br />
-                                <input type="file" asp-for="Files" multiple />
-                            </div>
+                                                     
                             <div class="col-md-12 form-group mb-6">
                                 <span>Special Instruction <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="Description" class="text-danger"></span></span>
                                 <textarea class="form-control" asp-for="Description" rows="6" cols="6"></textarea>
                             </div>
+                            
+                            <div class="@(User.FindFirstValue("RoleName").ToLower() == EnumRoleTypes.Admin ? "col-md-6" : "col-md-12") form-group mb-3">
+                                <span>Files (can be multiple) <span class="text-danger font-weight-bold">*</span> </span><br />
+                                <input type="file" asp-for="Files" multiple />
+                            </div>
+                            @if(User.FindFirstValue("RoleName").ToLower() == EnumRoleTypes.Admin) {
+                                <div class="col-md-6 form-group mb-3">
+                                    <span>Designer <span class="text-danger font-weight-bold">*</span> <span asp-validation-for="DeisgnerId" class="text-danger"></span></span>
+                                    <select class="form-control" asp-for="DeisgnerId">
+                                        <option value="">-Select Designer-</option>
+                                        @foreach (var item in ViewBag.Designers)
+                                        {
+                                            <option value="@item.Id">@item.Fullname</option>
+                                        }
+                                      
+                                    </select>
+                                </div>
+                            }
+                            else{
+                                <input type="hidden" asp-for="DeisgnerId">
+                            }
                     </div>
                     <br clear="all" />
                     <div class="form-group text-right">

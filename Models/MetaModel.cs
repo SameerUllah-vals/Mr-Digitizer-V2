@@ -116,6 +116,7 @@ namespace MrDigitizerV2.Models
     {
         [NotMapped]
         public List<IFormFile> Files { get; set; } = new List<IFormFile>();
+
     }
 
 
@@ -142,12 +143,17 @@ namespace MrDigitizerV2.Models
         public IFormFile File { get; set; }
     }
 
-    public class EmailMeta
+    public class EmailMeta : Orders
     {
         public string Fullname { get; set; }
+        public string EmailAddress { get; set; }
         public string Address { get; set; }
         public string URL { get; set; }
         public string WebsiteURL { get; set; }
+        public double Rate { get; set; }
+        public int Qty { get; set; }
+        public string OrderURL { get; set; }
+        public List<string> Attachements { get; set; } = new List<string>();
     }
 
 }
