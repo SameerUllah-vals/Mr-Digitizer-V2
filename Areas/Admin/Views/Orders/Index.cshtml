@@ -7,7 +7,7 @@
         ViewBag.AllowMailSending = true;
     }
    
-    string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"OrderType\"},{ \"data\": \"CustomerName\"},{ \"data\": \"DesignName\"},{ \"data\": \"EmailAddress\"},{ \"data\": \"PhoneNumber\"},{ \"render\": function(data, type, row){ if(row.Status == 'Unassigned') {return `<label style='background-color:#ff7e7e'>${row.Status}</label>` } else if(row.Status == 'Assigned') {return `<label style='background-color:Yellow'>${row.Status}</label>`} else if(row.Status == 'Completed') {return `<label style='background-color:#72f672'>${row.Status}</label>`} else if(row.Status == 'Delivered') {return `<label style='background:rgba(0, 159, 74, 1);color:white'>${row.Status}</label>`} else {return `<label style='background-color:#ff2828;color:white'>${row.Status}</label>`}} },{ \"data\": \"CreatedDateTimeString\"}";
+    string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"OrderType\"},{ \"data\": \"CustomerName\"},{ \"data\": \"DesignName\"},{ \"render\": function(data, type, row){ if(row.RoleName == 'designer') {return `-` } else { return `${row.EmailAddress}` } }},{ \"render\": function(data, type, row){ if(row.RoleName == 'designer') {return `-` } else { return `${row.PhoneNumber}` } }} ,{ \"render\": function(data, type, row){ if(row.Status == 'Unassigned') {return `<label style='background-color:#ff7e7e'>${row.Status}</label>` } else if(row.Status == 'Assigned') {return `<label style='background-color:Yellow'>${row.Status}</label>`} else if(row.Status == 'Completed') {return `<label style='background-color:#72f672'>${row.Status}</label>`} else if(row.Status == 'Delivered') {return `<label style='background:rgba(0, 159, 74, 1);color:white'>${row.Status}</label>`} else {return `<label style='background-color:#ff2828;color:white'>${row.Status}</label>`}} },{ \"data\": \"CreatedDateTimeString\"}";
 
     if (ViewBag.AllowAdding != null || ViewBag.AllowEditing != null || ViewBag.AllowDeleting != null || ViewBag.AllowViewing != null)
     {
@@ -46,6 +46,9 @@
         $(document).on('change', "#ddlStatus",function () {
             $(".display").DataTable().destroy();
             initDataTable($(this).val());
+        })
+        $(document).ready(function() {
+            
         })
     </script>
 }

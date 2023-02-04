@@ -96,7 +96,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                                     {
                                         ViewBag.AllowSorting = true;
                                     }
-
+                                    
                                 }
                                 else
                                 {

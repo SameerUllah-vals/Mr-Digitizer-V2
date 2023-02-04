@@ -13,6 +13,7 @@ using static MrDigitizerV2.Helpers.ApplicationHelper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Net.Mail;
+using System.ComponentModel.Design;
 
 namespace MrDigitizerV2.Areas.Admin.Controllers
 {
@@ -87,6 +88,7 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                                      CustomerName = x.User.Fullname,
                                      x.DesignName,
                                      EmailAddress = x.User.EmailAddress,
+                                     RoleName = RoleName,
                                      PhoneNumber = x.User.PhoneNumber,
                                      Status = x.OrderStatus.OrderByDescending(x => x.DateTime).FirstOrDefault().Status,
                                      CreatedDateTime = x.CreatedDateTime,

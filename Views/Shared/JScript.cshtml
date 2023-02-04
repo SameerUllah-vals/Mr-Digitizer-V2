@@ -5,7 +5,7 @@
 
     function initDataTable(statusValue){
         try {
-            $(".display").DataTable({
+            var table = $(".display").DataTable({
                 dom: '<""<"row"<"col"l><"col"B><"col"f>>>rtip',
                 "processing": true,
                 "language": {
@@ -71,8 +71,8 @@
     {
         @:$("#DataTables_Table_0_length").append('<a class="btn btn-primary ml-1" id="btnAdd" href="@ViewBag.PageURL/add">Add New</a>');
     }
-      
-            }
+               
+           }
         catch (e) {
             console.log(e);
         }

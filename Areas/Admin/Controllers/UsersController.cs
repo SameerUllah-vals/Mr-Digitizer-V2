@@ -35,6 +35,8 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
         {
             try
             {
+                var RoleId = Guid.Parse(User.FindFirstValue(ClaimTypes.Role));
+                var UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var draw = Request.Form["draw"].FirstOrDefault();
                 var start = Request.Form["start"].FirstOrDefault();
                 var length = Request.Form["length"].FirstOrDefault();
@@ -45,6 +47,10 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 var Data = (from x in dbContext.Users.Where(x => x.RoleId != EnumRole.SuperAdmin && !x.IsDeleted) select x);
+                if(RoleId != EnumRole.SuperAdmin)
+                {
+                    Data = Data.Where(x => x.CreatedBy == UserId);
+                }
                 if (!string.IsNullOrEmpty(sortColumn) || string.IsNullOrEmpty(sortColumnDirection))
                 {
                     Data = Data.Where(x => !x.IsDeleted && x.RoleId != EnumRole.SuperAdmin).OrderBy(sortColumn + " " + sortColumnDirection);
@@ -270,7 +276,15 @@ namespace MrDigitizerV2.Areas.Admin.Controllers
         [Route("FillDropDown")]
         public void FillDropDown()
         {
-            ViewBag.Roles = dbContext.Roles.Where(x => x.IsDeleted.Equals(false)).ToList();
+            if(Guid.Parse(User.FindFirstValue(ClaimTypes.Role)) == EnumRole.SuperAdmin)
+            {
+                ViewBag.Roles = dbContext.Roles.Where(x => x.IsDeleted.Equals(false)).ToList();
+            }
+            else
+            {
+               ViewBag.Roles = dbContext.Roles.Where(x => x.Title.ToLower() == "member" && x.IsDeleted.Equals(false)).ToList();
+            }
+           
         }
     }
 }
